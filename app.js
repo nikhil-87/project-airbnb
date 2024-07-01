@@ -10,7 +10,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpresError = require("./utils/ExpressError.js");
 const session = require("express-session");
-const MongoStore = require('connect-mongo');
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -50,9 +50,9 @@ const store = MongoStore.create({
   touchAfter: 24 * 3600,
 });
 
-store.on("error", ()=>{
+store.on("error", () => {
   console.log("ERROR in MONGO SESSION STORE", err);
-})
+});
 
 const sessionOptions = {
   store,
@@ -68,7 +68,6 @@ const sessionOptions = {
 
 app.use(session(sessionOptions));
 app.use(flash());
-
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -87,6 +86,9 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/", (req, res) => {
+  res.redirect("/listings");
+});
 
 app.use("/listings", listingRouter);
 
